@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/boss_fight.mp3-62be075a2dc5b26bc0cec0fc8a120159.mp3str"
+
+[deps]
+
+source_file="res://assets/sound/boss_fight.mp3"
+dest_files=[ "res://.import/boss_fight.mp3-62be075a2dc5b26bc0cec0fc8a120159.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
