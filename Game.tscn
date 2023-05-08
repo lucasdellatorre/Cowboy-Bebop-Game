@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_03.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_04.png" type="Texture" id=2]
@@ -25,16 +25,12 @@
 [ext_resource path="res://assets/sprites/player/Splinter/WalkUp_02.png" type="Texture" id=23]
 [ext_resource path="res://assets/sprites/player/Splinter/WalkUp_03.png" type="Texture" id=24]
 [ext_resource path="res://assets/sprites/level/street.png" type="Texture" id=25]
+[ext_resource path="res://Player.gd" type="Script" id=26]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [  ],
-"loop": true,
-"name": "New Anim",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 2 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "idle",
@@ -59,6 +55,8 @@ animations = [ {
 texture = ExtResource( 25 )
 
 [node name="Player" type="KinematicBody2D" parent="Level 1"]
+position = Vector2( -650, 0 )
+script = ExtResource( 26 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Player"]
 shape = SubResource( 1 )
@@ -69,6 +67,9 @@ animation = "walkup"
 frame = 7
 
 [node name="Camera2D" type="Camera2D" parent="Level 1/Player"]
+current = true
+zoom = Vector2( 0.5, 0.4 )
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
+smoothing_speed = 10.0
