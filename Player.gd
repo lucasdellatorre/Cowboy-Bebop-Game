@@ -15,16 +15,14 @@ func get_8way_input():
 		sprite.play("walk")
 	elif velocity.x < 0:
 		sprite.set_flip_h(true)
-		sprite.play("left")
+		sprite.play("walk")
 	# PRECISAMOS DE SPRITE DE INDO PRA BAIXO
 	#elif velocity.y > 0:
 	#	sprite.play("down")
 	elif velocity.y < 0:
 		sprite.play("walkup")
 	else:
-		sprite.play("walk")
-		sprite.stop()
-		sprite.frame = 0
+		sprite.play("idle")
 
 func get_input():
 	velocity = Vector2()
