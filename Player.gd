@@ -6,15 +6,22 @@ export (float) var speed_y = .5
 onready var sprite = $AnimatedSprite
 
 var velocity = Vector2()
+var block_movement = false
 
 func handle_melee():
 #	if hitbox.has_someone():
 	sprite.play("attack_normal")
+	block_movement = true
+	yield( sprite, "animation_finished" )
+	block_movement = false
 #		sound.play("hit")
 #		enemy
 
 func get_8way_input():
-	sprite.is_processing()
+	if block_movement:
+		velocity.x = 0
+		velocity.y = 0
+		return
 	velocity.x = Input.get_action_strength("movement_right")-Input.get_action_strength("movement_left")	
 	velocity.y = Input.get_action_strength("movement_down")-Input.get_action_strength("movement_up") 
 	velocity = velocity.normalized() * speed
