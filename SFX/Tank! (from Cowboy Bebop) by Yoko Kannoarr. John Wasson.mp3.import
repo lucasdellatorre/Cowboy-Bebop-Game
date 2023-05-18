@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Tank! (from Cowboy Bebop) by Yoko Kannoarr. John Wasson.mp3-659dc97380003da4b133bc35eae6a9d7.mp3str"
+
+[deps]
+
+source_file="res://SFX/Tank! (from Cowboy Bebop) by Yoko Kannoarr. John Wasson.mp3"
+dest_files=[ "res://.import/Tank! (from Cowboy Bebop) by Yoko Kannoarr. John Wasson.mp3-659dc97380003da4b133bc35eae6a9d7.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
