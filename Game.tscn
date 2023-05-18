@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_03.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_04.png" type="Texture" id=2]
@@ -36,8 +36,17 @@
 [ext_resource path="res://assets/sprites/player/Splinter/Attack2_02.png" type="Texture" id=34]
 [ext_resource path="res://assets/sprites/player/Splinter/Attack2_00.png" type="Texture" id=35]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 33, 31.5 )
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 768, 55.0938 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 15.25, 120 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 768, 16.5 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 13.375, 118.75 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -62,25 +71,65 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 33, 31.5 )
+
 [node name="Game" type="Node2D"]
 
 [node name="Level 1" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="Level 1"]
+[node name="Scenario" type="Node" parent="Level 1"]
+
+[node name="background" type="Sprite" parent="Level 1/Scenario"]
+position = Vector2( 691, 0 )
 texture = ExtResource( 25 )
 
-[node name="Player" type="KinematicBody2D" parent="Level 1"]
-position = Vector2( -650, 0 )
-script = ExtResource( 26 )
+[node name="Wall" type="StaticBody2D" parent="Level 1/Scenario"]
+visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Player"]
-position = Vector2( -6, 64.5 )
-shape = SubResource( 1 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/Wall"]
+position = Vector2( 691, -63.0938 )
+shape = SubResource( 3 )
+
+[node name="VoidLeft" type="StaticBody2D" parent="Level 1/Scenario"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/VoidLeft"]
+position = Vector2( -93, 1 )
+shape = SubResource( 4 )
+
+[node name="VoidBottom" type="StaticBody2D" parent="Level 1/Scenario"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/VoidBottom"]
+position = Vector2( 691, 135 )
+shape = SubResource( 5 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Level 1/Scenario"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/StaticBody2D"]
+position = Vector2( 1472, 0 )
+shape = SubResource( 6 )
+
+[node name="Player" type="KinematicBody2D" parent="Level 1"]
+position = Vector2( 178, -1 )
+script = ExtResource( 26 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Player"]
+position = Vector2( -10, -23 )
 frames = SubResource( 2 )
-animation = "attack_normal"
-frame = 6
+animation = "idle"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Player"]
+position = Vector2( -16, 43 )
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Camera2D" type="Camera2D" parent="Level 1/Player"]
 current = true
