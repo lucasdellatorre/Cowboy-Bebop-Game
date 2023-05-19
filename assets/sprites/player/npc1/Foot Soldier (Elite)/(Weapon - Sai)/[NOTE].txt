@@ -1,0 +1,1 @@
+The positions of the sais on FlingSlammed_01_11 and FlingSlammed_06 have been corrected, as they were both accidentally shifted to the right by one pixel in-game (causing the former to be wedged in by one pixel and the latter to be floating slightly) and didn't match ShoulderThrown_01's positioning.
