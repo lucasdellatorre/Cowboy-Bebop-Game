@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_03.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_04.png" type="Texture" id=2]
@@ -88,9 +88,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 27, 33.75 )
-
 [node name="Game" type="Node2D"]
 script = ExtResource( 37 )
 
@@ -172,26 +169,13 @@ stream = ExtResource( 36 )
 volume_db = -11.115
 autoplay = true
 
-[node name="KinematicBody2D" type="KinematicBody2D" parent="Level 1"]
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/KinematicBody2D"]
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1"]
 position = Vector2( 407, -33 )
 frames = SubResource( 7 )
 animation = "idle"
-frame = 3
+frame = 1
 playing = true
 flip_h = true
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/KinematicBody2D"]
-visible = false
-position = Vector2( 403, 29.25 )
-shape = SubResource( 8 )
 __meta__ = {
 "_edit_group_": true
 }
