@@ -39,7 +39,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=37]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 768, 55.0938 )
+extents = Vector2( 768, 47.0938 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 15.25, 120 )
@@ -88,32 +88,34 @@ position = Vector2( 691, 0 )
 texture = ExtResource( 25 )
 
 [node name="Wall" type="StaticBody2D" parent="Level 1/Scenario"]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/Wall"]
-position = Vector2( 691, -63.0938 )
+position = Vector2( 691, -71.0938 )
 shape = SubResource( 3 )
 
 [node name="VoidLeft" type="StaticBody2D" parent="Level 1/Scenario"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/VoidLeft"]
 position = Vector2( -93, 1 )
 shape = SubResource( 4 )
 
 [node name="VoidBottom" type="StaticBody2D" parent="Level 1/Scenario"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/VoidBottom"]
 position = Vector2( 691, 135 )
 shape = SubResource( 5 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Level 1/Scenario"]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Scenario/StaticBody2D"]
 position = Vector2( 1472, 0 )
 shape = SubResource( 6 )
 
 [node name="Player" type="KinematicBody2D" parent="Level 1"]
-position = Vector2( 178, -1 )
+position = Vector2( 10, -28 )
 script = ExtResource( 26 )
 __meta__ = {
 "_edit_group_": true
@@ -128,6 +130,7 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Player"]
+visible = false
 position = Vector2( -16, 43 )
 shape = SubResource( 1 )
 __meta__ = {
@@ -135,13 +138,21 @@ __meta__ = {
 }
 
 [node name="Camera2D" type="Camera2D" parent="Level 1/Player"]
+position = Vector2( 0, 5 )
+offset = Vector2( 10, -10 )
 current = true
-zoom = Vector2( 0.5, 0.4 )
+zoom = Vector2( 0.5, 0.395 )
+limit_left = -80
+limit_top = -109
+limit_right = 1448
+limit_bottom = 120
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
 smoothing_speed = 10.0
+editor_draw_limits = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Level 1"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Level 1"]
 stream = ExtResource( 36 )
+volume_db = -11.115
 autoplay = true
