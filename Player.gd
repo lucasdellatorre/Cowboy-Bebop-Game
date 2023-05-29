@@ -8,21 +8,23 @@ onready var sprite = $AnimatedSprite
 var velocity = Vector2()
 var block_movement = false
 
+func _on_AnimatedSprite_animation_finished():
+	if $AnimatedSprite.animation == "attack_normal":
+		$AttackArea/CollisionShape2D.disabled = true
+		block_movement = false
+
+
 func handle_melee():
-#	if hitbox.has_someone():
 	sprite.play("attack_normal")
 	block_movement = true
-	yield( sprite, "animation_finished" )
-	block_movement = false
-#		sound.play("hit")
-#		enemy
+	$AttackArea/CollisionShape2D.disabled = false
 
 func get_8way_input():
 	if block_movement:
 		velocity.x = 0
 		velocity.y = 0
 		return
-	velocity.x = Input.get_action_strength("movement_right")-Input.get_action_strength("movement_left")	
+	velocity.x = Input.get_action_strength("movement_right")-Input.get_action_strength("movement_left")
 	velocity.y = Input.get_action_strength("movement_down")-Input.get_action_strength("movement_up") 
 	velocity = velocity.normalized() * speed
 	velocity.y = velocity.y * speed_y
