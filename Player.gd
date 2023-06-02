@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 export (int) var speed = 140
 export (float) var speed_y = .5
-export (int) var health = 100
+export (int) var health = 75
 
 onready var sprite = $AnimatedSprite
 
@@ -52,8 +52,10 @@ func _physics_process(delta):
 func _ready():
 	pass # Replace with function body.
 
-
-func _on_pizza_area_entered(area: Area2D) -> void:
-	#print_debug(health)
-	#if area.get_instance_id() == $Player.get_instance_id():
-	health = health + 10
+func _on_pizza_body_entered(body: Node) -> void:
+	print("Entrou na pizza")
+	if (health >= 90):
+		health = 100
+	else:
+		health = health + 10
+	print("life ", health)
