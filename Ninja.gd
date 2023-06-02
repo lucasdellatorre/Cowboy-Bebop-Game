@@ -10,20 +10,20 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if dead:
-		$AnimatedSprite.play("destroyed")
-	else:
+	if !dead:
 		$AnimatedSprite.play("idle")		
-		
-		
-
 
 func _on_Ninja_area_entered(area):
 	if area.is_in_group("stick"):
+		print("acertou o alvo")
 		$AnimatedSprite.play("hitstun")
 		life = life - 20
+		print("life ", life)
 		if life <= 0:
 			dead = true
+			$AnimatedSprite.play("destroyed")
+			
+		
 			
 func _on_AnimatedSprite_animation_finished():
 	if $AnimatedSprite.animation == "destroyed":

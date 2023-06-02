@@ -171,8 +171,8 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja"]
 position = Vector2( 407, -33 )
 frames = SubResource( 7 )
-animation = "destroyed"
-frame = 10
+animation = "idle"
+frame = 1
 playing = true
 flip_h = true
 __meta__ = {
