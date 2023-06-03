@@ -15,8 +15,6 @@ func _ready() -> void:
 #func _process(delta: float) -> void:
 #	pass
 
-
-func _on_pizza_area_entered(area: Area2D) -> void:
+func _on_pizza_body_entered(body: Node) -> void:
 	print_debug("entered")
-	print_debug(area.get_index())
 	queue_free()
