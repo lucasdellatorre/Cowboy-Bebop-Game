@@ -31,15 +31,17 @@ func get_8way_input():
 	velocity.y = velocity.y * speed_y
 	if Input.is_action_pressed("melee"):
 		handle_melee()
-	elif velocity.x > 0:
+	elif Input.is_action_pressed("movement_right"):
 		sprite.set_flip_h(false)
+		get_node("AttackArea").set_scale(Vector2(1, 1))
 		sprite.play("walk")
-	elif velocity.x < 0:
+	elif Input.is_action_pressed("movement_left"):
 		sprite.set_flip_h(true)
+		get_node("AttackArea").set_scale(Vector2(-1, 1))
 		sprite.play("walk")
-	elif velocity.y > 0:
+	elif Input.is_action_pressed("movement_up"):
 		sprite.play("walk")
-	elif velocity.y < 0:
+	elif Input.is_action_pressed("movement_down"):
 		sprite.play("walkup")
 	else:
 		sprite.play("idle")
