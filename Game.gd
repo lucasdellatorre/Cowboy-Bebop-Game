@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	if endLine == null:
 		return
 		
-	if player.position.y > endLine.position.y:
+	if player.position.x > endLine.position.x:
 		get_tree().change_scene("res://EndGame.tscn")
 
 func goto_scene(path: String):

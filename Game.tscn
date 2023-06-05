@@ -230,7 +230,7 @@ position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
 animation = "idle"
-frame = 3
+frame = 2
 playing = true
 __meta__ = {
 "_edit_group_": true
