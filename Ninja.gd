@@ -1,18 +1,19 @@
 extends Area2D
 
-enum StateMachine { IDLE, WALK, ATTACK, DEATH }
+enum StateMachine { IDLE, WALK, ATTACK, DEATH, HITTEN }
 
 const speed := 80
-const DIST_FOLLOW := 300
-const DIST_ATTACK := 50
+const DIST_FOLLOW := 250
+const DIST_ATTACK := 60
 var distance := 10
 var direction := 0
 
-var dead = false
 var life = 100
-var is_hitten = false
 var animation = ""
 var state = StateMachine.IDLE
+var velocity = Vector2.ZERO
+var previous_position = Vector2.ZERO
+
 
 onready var animation_player = $AnimatedSprite
 onready var body = $Body
@@ -21,6 +22,10 @@ onready var ninja = owner.get_child(0).get_node("Ninja")
 
 func _process(delta):
 	distance = global_position.distance_to(player.global_position)
+	velocity = ((position - previous_position) / delta).normalized()
+	previous_position = position
+
+		
 	match state:
 		StateMachine.IDLE:
 			_set_animation("idle")
@@ -29,26 +34,29 @@ func _process(delta):
 		StateMachine.WALK:
 			_set_animation("walk")
 			_flip()
+			#ninja.velocity.x = direction * speed
+			#var direction = (player.global_position - ninja.global_position).normalized()
+			#ninja.global_position += direction * speed * delta
+			var xMovement = Vector2(direction * speed * delta, 0)
+			translate(xMovement * - 1)
+			
+			if distance >= DIST_FOLLOW:
+				_enter_state(StateMachine.IDLE)
+				
+			if distance <= DIST_ATTACK:
+				_enter_state(StateMachine.ATTACK)
 		StateMachine.ATTACK:
 			_set_animation("attack")
+		StateMachine.HITTEN:
+			_set_animation("hitstun")
 		StateMachine.DEATH:
 			_set_animation("destroyed")
-	
-#	if is_hitten:
-#		$AnimatedSprite.play("hitstun")
-#	elif !dead:
-#		$AnimatedSprite.play("idle")		
-#	elif dead:
-#		$AnimatedSprite.play("destroyed")	
-
+			
 func _flip() -> void:
-	print("player pos: ", player.global_position.x)
-	print("ninja pos: ",  global_position.x)
 	if ninja.global_position.x < player.global_position.x:
 		ninja.set_scale(Vector2(-1, 1))
 		direction = -1
 	elif ninja.global_position.x > player.global_position.x:
-		print("chegou ali")
 		ninja.set_scale(Vector2(1, 1))
 		direction = 1
 
@@ -61,22 +69,19 @@ func _set_animation(anim) -> void:
 		animation = anim
 		animation_player.play(animation)
 		
-
-
 func _on_Ninja_area_entered(area):
 	if area.is_in_group("stick"):
-		is_hitten = true
-		print("acertou o alvo")
-		$AnimatedSprite.play("hitstun")
+		_enter_state(StateMachine.HITTEN)
 		life -= 20
-		print("life ", life)
 		if life <= 0:
-			is_hitten = false
-			dead = true
+			_enter_state(StateMachine.DEATH)
 			
 func _on_AnimatedSprite_animation_finished():
 	if $AnimatedSprite.animation == "destroyed":
 		queue_free()
 	elif $AnimatedSprite.animation == "hitstun":
-		is_hitten = false
-		$AnimatedSprite.play("idle")
+		_enter_state(StateMachine.IDLE)
+	elif $AnimatedSprite.animation == "attack":
+		_enter_state(StateMachine.IDLE)
+	elif $AnimatedSprite.animation == "walk":
+		_enter_state(StateMachine.IDLE)
