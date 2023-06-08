@@ -5,6 +5,7 @@ export (float) var speed_y = .5
 export (int) var health = 75
 
 onready var sprite = $AnimatedSprite
+onready var hud = owner.get_node("HUD")
 
 var velocity = Vector2()
 var block_movement = false
@@ -16,6 +17,7 @@ func _on_AnimatedSprite_animation_finished():
 
 
 func handle_melee():
+	hud.update_player_hud(health)
 	sprite.play("attack_normal")
 	block_movement = true
 	$AttackArea/CollisionShape2D.disabled = false
@@ -61,3 +63,8 @@ func _on_pizza_body_entered(body: Node) -> void:
 	else:
 		health = health + 10
 	print("life ", health)
+
+func _take_damage():
+	
+	pass
+	
