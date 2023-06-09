@@ -13,6 +13,7 @@ var animation = ""
 var state = StateMachine.IDLE
 var velocity = Vector2.ZERO
 var previous_position = Vector2.ZERO
+var can_attack = true
 
 
 onready var animation_player = $AnimatedSprite
@@ -20,12 +21,17 @@ onready var body = $Body
 onready var player = owner.get_child(0).get_node("Player") # precisa do get_child(0) por causa do level
 onready var ninja = owner.get_child(0).get_node("Ninja")
 
+func _ready():
+	$Timer.connect("timeout", self, "_on_attack_timeout")
+	
+func _on_attack_timeout():
+	can_attack = true
+
 func _process(delta):
 	distance = global_position.distance_to(player.global_position)
 	velocity = ((position - previous_position) / delta).normalized()
 	previous_position = position
 
-		
 	match state:
 		StateMachine.IDLE:
 			_set_animation("idle")
@@ -46,7 +52,12 @@ func _process(delta):
 			if distance <= DIST_ATTACK:
 				_enter_state(StateMachine.ATTACK)
 		StateMachine.ATTACK:
-			_set_animation("attack")
+			if can_attack:
+				_set_animation("attack")
+				$AttackArea/CollisionShape2D.disabled = false
+				$Timer.start()
+			can_attack = false
+			
 		StateMachine.HITTEN:
 			_set_animation("hitstun")
 		StateMachine.DEATH:
@@ -77,11 +88,13 @@ func _on_Ninja_area_entered(area):
 			_enter_state(StateMachine.DEATH)
 			
 func _on_AnimatedSprite_animation_finished():
-	if $AnimatedSprite.animation == "destroyed":
-		queue_free()
-	elif $AnimatedSprite.animation == "hitstun":
-		_enter_state(StateMachine.IDLE)
-	elif $AnimatedSprite.animation == "attack":
-		_enter_state(StateMachine.IDLE)
-	elif $AnimatedSprite.animation == "walk":
-		_enter_state(StateMachine.IDLE)
+	match $AnimatedSprite.animation:
+		"destroyed":
+			queue_free()
+		"hitstun":
+			_enter_state(StateMachine.IDLE)
+		"attack":
+			$AttackArea/CollisionShape2D.disabled = true
+			_enter_state(StateMachine.IDLE)
+		"walk":
+			_enter_state(StateMachine.IDLE)
