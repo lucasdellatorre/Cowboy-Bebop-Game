@@ -14,11 +14,17 @@ func _on_AnimatedSprite_animation_finished():
 	if sprite.animation == "attack_normal":
 		$AttackArea/CollisionShape2D.disabled = true
 		block_movement = false
+	elif sprite.animation == "attack_bite":
+		$AttackArea/attack_bite.disabled = true
+		block_movement = false
 
-func handle_melee():
-	sprite.play("attack_normal")
+func handle_melee(attack):
+	sprite.play(attack)
 	block_movement = true
-	$AttackArea/CollisionShape2D.disabled = false
+	if attack == "attack_bite":
+		$AttackArea/attack_bite.disabled = false
+	else:
+		$AttackArea/CollisionShape2D.disabled = false
 
 func get_8way_input():
 	if block_movement:
@@ -32,7 +38,9 @@ func get_8way_input():
 	velocity.y = velocity.y * speed_y
 	
 	if Input.is_action_pressed("melee"):
-		handle_melee()
+		handle_melee("attack_normal")
+	elif Input.is_action_pressed("attack_bite"):
+		handle_melee("attack_bite")
 	elif Input.is_action_pressed("movement_right"):
 		sprite.set_flip_h(false)
 		get_node("AttackArea").set_scale(Vector2(1, 1))
