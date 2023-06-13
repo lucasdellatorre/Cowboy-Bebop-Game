@@ -28,3 +28,4 @@ func goto_scene(path: String):
 	currentScene = res.instance()
 	get_tree().get_root().add_child(currentScene)
 	#self.add_child(currentScene)
+	
