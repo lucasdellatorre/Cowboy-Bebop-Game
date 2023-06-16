@@ -23,8 +23,4 @@ func _physics_process(delta: float) -> void:
 func goto_scene(path: String):
 	print("Total children: "+str(get_child_count()))
 	var world := get_child(0)
-	world.free()
-	var res := ResourceLoader.load(path)
-	currentScene = res.instance()
-	get_tree().get_root().add_child(currentScene)
-	#self.add_child(currentScene)
+	get_tree().change_scene(path)
