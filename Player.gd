@@ -1,14 +1,17 @@
 extends KinematicBody2D
 
 export (int) var speed = 140
-export (float) var speed_y = .5
 export (int) var health = 100
-
-onready var sprite = $AnimatedSprite
-onready var hud = owner.get_node("HUD")
+export (float) var speed_y = .5
+export (float) var dash_speed = 300
+export (float) var dash_length = 30
 
 var velocity = Vector2()
 var block_movement = false
+
+onready var dash = $Dash
+onready var sprite = $AnimatedSprite
+onready var hud = owner.get_node("HUD")
 
 func _on_AnimatedSprite_animation_finished():
 	if sprite.animation == "attack_normal":
@@ -31,13 +34,9 @@ func get_8way_input():
 		velocity.x = 0
 		velocity.y = 0
 		return
-	
-	velocity.x = Input.get_action_strength("movement_right")-Input.get_action_strength("movement_left")
-	velocity.y = Input.get_action_strength("movement_down")-Input.get_action_strength("movement_up") 
-	velocity = velocity.normalized() * speed
-	velocity.y = velocity.y * speed_y
-	
-	if Input.is_action_pressed("melee"):
+	if Input.is_action_pressed("dash") && dash.can_dash && !dash.is_dashing():
+		dash.start_dash(sprite, dash_length)
+	elif Input.is_action_pressed("melee"):
 		handle_melee("attack_normal")
 	elif Input.is_action_pressed("attack_bite"):
 		handle_melee("attack_bite")
@@ -56,11 +55,21 @@ func get_8way_input():
 	else:
 		sprite.play("idle")
 		
+	velocity.x = Input.get_action_strength("movement_right")-Input.get_action_strength("movement_left")
+	velocity.y = Input.get_action_strength("movement_down")-Input.get_action_strength("movement_up") 
+	
+	var move_speed = dash_speed if dash.is_dashing() else speed
+	
+	velocity = velocity.normalized() * move_speed
+	velocity.y = velocity.y * speed_y
+		
 func _physics_process(delta):
 	hud.update_player_hud(health)
+	#handle_dash()
 	get_8way_input()
 	velocity = move_and_slide(velocity)
-
+	
+	
 func _on_pizza_body_entered(body: Node) -> void:
 	if (health >= 90):
 		health = 100
@@ -68,6 +77,7 @@ func _on_pizza_body_entered(body: Node) -> void:
 		health = health + 30
 
 func _on_HurtBox_area_entered(area: Area2D) -> void:
+	if dash.is_dashing(): return
 	if area.is_in_group("hand"):
 		health -= 20
 		if health <= 0:

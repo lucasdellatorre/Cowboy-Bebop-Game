@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=2]
+[gd_scene load_steps=114 format=2]
 
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_03.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/player/Splinter/Idle_04.png" type="Texture" id=2]
@@ -25,7 +25,7 @@
 [ext_resource path="res://assets/sprites/player/Splinter/WalkUp_02.png" type="Texture" id=23]
 [ext_resource path="res://assets/sprites/player/Splinter/WalkUp_03.png" type="Texture" id=24]
 [ext_resource path="res://assets/sprites/level/street.png" type="Texture" id=25]
-[ext_resource path="res://Player.gd" type="Script" id=26]
+[ext_resource path="res://Dash.tscn" type="PackedScene" id=26]
 [ext_resource path="res://assets/sprites/player/Splinter/Attack2_08.png" type="Texture" id=27]
 [ext_resource path="res://assets/sprites/player/Splinter/Attack2_06.png" type="Texture" id=28]
 [ext_resource path="res://assets/sprites/player/Splinter/Attack2_01.png" type="Texture" id=29]
@@ -100,6 +100,7 @@
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_07.png" type="Texture" id=98]
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_08.png" type="Texture" id=99]
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_09.png" type="Texture" id=100]
+[ext_resource path="res://Player.gd" type="Script" id=101]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 768, 47.0938 )
@@ -285,12 +286,13 @@ script = null
 wait_time = 1.5
 
 [node name="Player" type="KinematicBody2D" parent="Level 1"]
-position = Vector2( 10, -28 )
+position = Vector2( -10, -20 )
 collision_layer = 3
-script = ExtResource( 26 )
+script = ExtResource( 101 )
 __meta__ = {
 "_edit_group_": true
 }
+dash_length = 0.2
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Player"]
 position = Vector2( -10, -23 )
@@ -346,6 +348,8 @@ shape = SubResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="Dash" parent="Level 1/Player" instance=ExtResource( 26 )]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Level 1"]
 stream = ExtResource( 36 )
