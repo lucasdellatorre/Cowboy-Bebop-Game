@@ -4,7 +4,7 @@ export (int) var speed = 140
 export (int) var health = 100
 export (float) var speed_y = .5
 export (float) var dash_speed = 300
-export (float) var dash_length = 3
+export (float) var dash_length = 30
 
 var velocity = Vector2()
 var block_movement = false
@@ -60,7 +60,6 @@ func get_8way_input():
 	
 	var move_speed = dash_speed if dash.is_dashing() else speed
 	
-	print(dash.is_dashing())
 	velocity = velocity.normalized() * move_speed
 	velocity.y = velocity.y * speed_y
 		

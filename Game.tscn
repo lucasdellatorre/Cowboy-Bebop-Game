@@ -265,7 +265,6 @@ position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
 animation = "hitstun"
-frame = 1
 speed_scale = 1.2
 playing = true
 __meta__ = {
@@ -287,7 +286,7 @@ script = null
 wait_time = 1.5
 
 [node name="Player" type="KinematicBody2D" parent="Level 1"]
-position = Vector2( 10, -28 )
+position = Vector2( -10, -20 )
 collision_layer = 3
 script = ExtResource( 101 )
 __meta__ = {
