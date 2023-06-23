@@ -43,7 +43,14 @@ func _process(delta):
 			#ninja.velocity.x = direction * speed
 			#var direction = (player.global_position - ninja.global_position).normalized()
 			#ninja.global_position += direction * speed * delta
-			var xMovement = Vector2(direction * speed * delta, 0)
+			
+			# esse numero magico 15 eh uma gambiarra pra contornar a posicao global errada do player
+			var ninjaY = 0
+			if ninja.global_position.y > player.global_position.y - 15:
+				ninjaY = 0.3
+			if ninja.global_position.y < player.global_position.y - 15:
+				ninjaY = - 0.3
+			var xMovement = Vector2(direction * speed * delta, ninjaY)
 			translate(xMovement * - 1)
 			
 			if distance >= DIST_FOLLOW:

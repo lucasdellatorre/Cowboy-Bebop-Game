@@ -13,7 +13,7 @@ func instance_ghost():
 	get_parent().get_parent().add_child(ghost)
 	
 	ghost.global_position.x = global_position.x
-	ghost.global_position.y = global_position.y - 51
+	ghost.global_position.y = global_position.y - 68
 	ghost.frame = sprite.frame
 	ghost.texture = sprite.frames.get_frame("walk", 0)
 	ghost.flip_h = sprite.flip_h
