@@ -100,6 +100,8 @@
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_07.png" type="Texture" id=98]
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_08.png" type="Texture" id=99]
 [ext_resource path="res://assets/sprites/player/Splinter/AttackFinisher_09.png" type="Texture" id=100]
+[ext_resource path="res://Ninja2.gd" type="Script" id=101]
+[ext_resource path="res://assets/shaders/line.gdshader" type="Shader" id=102]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 768, 47.0938 )
@@ -151,6 +153,11 @@ animations = [ {
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 1.21234, 8.58297 )
+
+[sub_resource type="ShaderMaterial" id=15]
+shader = ExtResource( 102 )
+shader_param/strength = 0.04
+shader_param/color = null
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -284,6 +291,37 @@ script = null
 [node name="Timer" type="Timer" parent="Level 1/Ninja"]
 wait_time = 1.5
 
+[node name="Ninja2" type="Area2D" parent="Level 1"]
+position = Vector2( 500, 22 )
+script = ExtResource( 101 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja2"]
+material = SubResource( 15 )
+position = Vector2( 3, -50 )
+scale = Vector2( -1, 1 )
+frames = SubResource( 7 )
+animation = "attack"
+frame = 5
+speed_scale = 1.2
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Ninja2"]
+position = Vector2( 0, 3 )
+scale = Vector2( 7.79109, -0.884586 )
+shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AttackArea" parent="Level 1/Ninja2" instance=ExtResource( 83 )]
+script = null
+
+[node name="Timer" type="Timer" parent="Level 1/Ninja2"]
+wait_time = 1.5
+
 [node name="Player" type="KinematicBody2D" parent="Level 1"]
 position = Vector2( 10, -28 )
 collision_layer = 3
@@ -360,5 +398,7 @@ autoplay = true
 [connection signal="body_entered" from="Level 1/pizza" to="Level 1/Player" method="_on_pizza_body_entered"]
 [connection signal="area_entered" from="Level 1/Ninja" to="Level 1/Ninja" method="_on_Ninja_area_entered"]
 [connection signal="animation_finished" from="Level 1/Ninja/AnimatedSprite" to="Level 1/Ninja" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Ninja2" to="Level 1/Ninja2" method="_on_Ninja_area_entered"]
+[connection signal="animation_finished" from="Level 1/Ninja2/AnimatedSprite" to="Level 1/Ninja2" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="animation_finished" from="Level 1/Player/AnimatedSprite" to="Level 1/Player" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Level 1/Player/HurtBox" to="Level 1/Player" method="_on_HurtBox_area_entered"]

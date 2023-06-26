@@ -2,13 +2,13 @@ extends Area2D
 
 enum StateMachine { IDLE, WALK, ATTACK, DEATH, HITTEN }
 
-const speed := 80
+const speed := 90
 const DIST_FOLLOW := 250
 const DIST_ATTACK := 60
 var distance := 10
 var direction := 0
 
-var life = 100
+var life = 50
 var animation = ""
 var state = StateMachine.IDLE
 var velocity = Vector2.ZERO
@@ -19,7 +19,7 @@ var can_attack = true
 onready var animation_player = $AnimatedSprite
 onready var body = $Body
 onready var player = owner.get_child(0).get_node("Player") # precisa do get_child(0) por causa do level
-onready var ninja = owner.get_child(0).get_node("Ninja")
+onready var ninja = owner.get_child(0).get_node("Ninja2")
 
 func _ready():
 	$Timer.connect("timeout", self, "_on_attack_timeout")
