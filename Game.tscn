@@ -320,7 +320,7 @@ position = Vector2( 1472, 0 )
 shape = SubResource( 6 )
 
 [node name="EndLine" type="Position2D" parent="Level 1/Scenario"]
-position = Vector2( 1430, 0 )
+position = Vector2( 1400, 0 )
 
 [node name="pizza" type="Area2D" parent="Level 1"]
 position = Vector2( 200, 90 )
@@ -349,7 +349,6 @@ position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
 animation = "attack"
-frame = 5
 speed_scale = 1.2
 playing = true
 __meta__ = {
