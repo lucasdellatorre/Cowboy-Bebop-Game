@@ -320,7 +320,7 @@ position = Vector2( 1472, 0 )
 shape = SubResource( 6 )
 
 [node name="EndLine" type="Position2D" parent="Level 1/Scenario"]
-position = Vector2( 1300, 0 )
+position = Vector2( 1430, 0 )
 
 [node name="pizza" type="Area2D" parent="Level 1"]
 position = Vector2( 200, 90 )
@@ -349,7 +349,6 @@ position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
 animation = "attack"
-frame = 4
 speed_scale = 1.2
 playing = true
 __meta__ = {
@@ -408,8 +407,8 @@ script = null
 
 [node name="HUD" parent="." instance=ExtResource( 82 )]
 
-[connection signal="area_entered" from="Level 1/pizza" to="Level 1/pizza" method="_on_pizza_area_entered"]
 [connection signal="body_entered" from="Level 1/pizza" to="Level 1/pizza" method="_on_pizza_body_entered"]
+[connection signal="body_entered" from="Level 1/pizza" to="Level 1/Player" method="_on_pizza_body_entered"]
 [connection signal="area_entered" from="Level 1/Ninja" to="Level 1/Ninja" method="_on_Ninja_area_entered"]
 [connection signal="animation_finished" from="Level 1/Ninja/AnimatedSprite" to="Level 1/Ninja" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Level 1/Boss" to="Level 1/Boss" method="_on_Boss_area_entered"]

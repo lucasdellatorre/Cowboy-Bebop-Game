@@ -71,23 +71,22 @@ func _physics_process(delta):
 	
 	
 func _on_pizza_body_entered(body: Node) -> void:
+	print("entrou na pizza")
 	if (health >= 90):
 		health = 100
 	else:
-		health = health + 30
+		health = health + 50
 
 func _on_HurtBox_area_entered(area: Area2D) -> void:
 	if dash.is_dashing(): return
 	
 	if area.is_in_group("boss_hand"):
-		print(health)
 		health -= 30
-		if health <= 0:
-			get_tree().change_scene("res://GameOver.tscn")
 	elif area.is_in_group("hand"):
 		health -= 15
-		if health <= 0:
-			get_tree().change_scene("res://GameOver.tscn")
+			
+	if health <= 0:
+		get_tree().change_scene("res://GameOver.tscn")
 	
 	# var base_damage = hitbox.damage
 	#self.health -+ base_damage
