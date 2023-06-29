@@ -1,7 +1,39 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Idle_03.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Idle_01_05.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Idle_02_04.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_06.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_02.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_05.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_00.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_03.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_04.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_01.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_07.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Idle_00_06.png" type="Texture" id=13]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_04.png" type="Texture" id=15]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_06.png" type="Texture" id=16]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_03.png" type="Texture" id=17]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_05.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_00.png" type="Texture" id=19]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_01.png" type="Texture" id=20]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Walk_02.png" type="Texture" id=21]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_04.png" type="Texture" id=22]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_00.png" type="Texture" id=23]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_01.png" type="Texture" id=24]
 [ext_resource path="res://assets/sprites/level/street.png" type="Texture" id=25]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_02.png" type="Texture" id=26]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_05.png" type="Texture" id=27]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_03.png" type="Texture" id=28]
+[ext_resource path="res://assets/sprites/player/Casey Jones/Hitstun1_06.png" type="Texture" id=29]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKoBounce_01.png" type="Texture" id=30]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKoBounce_03.png" type="Texture" id=31]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKoBounce_04.png" type="Texture" id=32]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKo_00.png" type="Texture" id=33]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKoBounce_02.png" type="Texture" id=34]
+[ext_resource path="res://assets/sprites/player/Casey Jones/KnockdownKoBounce_00.png" type="Texture" id=35]
 [ext_resource path="res://SFX/Tank! (from Cowboy Bebop) by Yoko Kannoarr. John Wasson.mp3" type="AudioStream" id=36]
 [ext_resource path="res://Game.gd" type="Script" id=37]
 [ext_resource path="res://assets/sprites/player/npc1/Foot Soldier (Elite)/Idle_02.png" type="Texture" id=38]
@@ -102,6 +134,148 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 1.21234, 8.58297 )
 
+[sub_resource type="GDScript" id=13]
+script/source = "extends Area2D
+
+enum StateMachine { IDLE, WALK, ATTACK, DEATH, HITTEN }
+
+const speed := 80
+const DIST_FOLLOW := 250
+const DIST_ATTACK := 60
+var distance := 10
+var direction := 0
+
+var life = 160
+var animation = \"\"
+var state = StateMachine.IDLE
+var velocity = Vector2.ZERO
+var previous_position = Vector2.ZERO
+var can_attack = true
+
+
+onready var animation_player = $AnimatedSprite
+onready var body = $Body
+onready var player = owner.get_child(0).get_node(\"Player\") # precisa do get_child(0) por causa do level
+onready var ninja = owner.get_child(0).get_node(\"Boss\")
+
+func _ready():
+	$Timer.connect(\"timeout\", self, \"_on_attack_timeout\")
+	
+func _on_attack_timeout():
+	can_attack = true
+
+func _process(delta):
+	distance = global_position.distance_to(player.global_position)
+	velocity = ((position - previous_position) / delta).normalized()
+	previous_position = position
+
+	match state:
+		StateMachine.IDLE:
+			_set_animation(\"idle\")
+			if distance <= DIST_FOLLOW:
+				_enter_state(StateMachine.WALK)
+		StateMachine.WALK:
+			_set_animation(\"walk\")
+			_flip()
+			#ninja.velocity.x = direction * speed
+			#var direction = (player.global_position - ninja.global_position).normalized()
+			#ninja.global_position += direction * speed * delta
+			
+			# esse numero magico 15 eh uma gambiarra pra contornar a posicao global errada do player
+			var ninjaY = 0
+			if ninja.global_position.y > player.global_position.y - 15:
+				ninjaY = 0.3
+			if ninja.global_position.y < player.global_position.y - 15:
+				ninjaY = - 0.3
+			var xMovement = Vector2(direction * speed * delta, ninjaY)
+			translate(xMovement * - 1)
+			
+			if distance >= DIST_FOLLOW:
+				_enter_state(StateMachine.IDLE)
+				
+			if distance <= DIST_ATTACK:
+				_enter_state(StateMachine.ATTACK)
+		StateMachine.ATTACK:
+			if can_attack:
+				_set_animation(\"attack\")
+				$AttackArea/CollisionShape2D.disabled = false
+				$Timer.start()
+			can_attack = false
+			
+		StateMachine.HITTEN:
+			_set_animation(\"hitstun\")
+		StateMachine.DEATH:
+			_set_animation(\"destroyed\")
+			
+func _flip() -> void:
+	if ninja.global_position.x < player.global_position.x:
+		ninja.set_scale(Vector2(-1, 1))
+		direction = -1
+	elif ninja.global_position.x > player.global_position.x:
+		ninja.set_scale(Vector2(1, 1))
+		direction = 1
+
+func _enter_state(new_state) -> void:
+	if state != new_state:
+		state = new_state
+
+func _set_animation(anim) -> void:
+	if animation != anim:
+		animation = anim
+		animation_player.play(animation)
+		
+func _on_Boss_area_entered(area):
+	if area.is_in_group(\"stick\"):
+		print(\"boss recebeu hit\")
+		_enter_state(StateMachine.HITTEN)
+		life -= 20
+		if life <= 0:
+			_enter_state(StateMachine.DEATH)
+			
+func _on_AnimatedSprite_animation_finished():
+	match $AnimatedSprite.animation:
+		\"destroyed\":
+			queue_free()
+		\"hitstun\":
+			_enter_state(StateMachine.IDLE)
+		\"attack\":
+			$AttackArea/CollisionShape2D.disabled = true
+			_enter_state(StateMachine.IDLE)
+		\"walk\":
+			_enter_state(StateMachine.IDLE)
+"
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ ExtResource( 8 ), ExtResource( 11 ), ExtResource( 6 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 5 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 35 ), ExtResource( 30 ), ExtResource( 34 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "destroyed",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ), ExtResource( 24 ), ExtResource( 26 ), ExtResource( 28 ), ExtResource( 22 ), ExtResource( 27 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "hitstun",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 18 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=12]
+radius = 16.0
+
 [node name="Game" type="Node2D"]
 script = ExtResource( 37 )
 
@@ -171,6 +345,7 @@ position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
 animation = "hitstun"
+frame = 1
 speed_scale = 1.2
 playing = true
 __meta__ = {
@@ -198,9 +373,40 @@ stream = ExtResource( 36 )
 volume_db = -11.115
 autoplay = true
 
+[node name="Boss" type="Area2D" parent="Level 1"]
+position = Vector2( 1193, 30 )
+script = SubResource( 13 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Boss"]
+position = Vector2( 7, -53 )
+frames = SubResource( 11 )
+animation = "destroyed"
+speed_scale = 1.2
+flip_h = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Boss"]
+shape = SubResource( 12 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Timer" type="Timer" parent="Level 1/Boss"]
+wait_time = 1.5
+
+[node name="AttackArea" parent="Level 1/Boss" instance=ExtResource( 83 )]
+script = null
+
 [node name="HUD" parent="." instance=ExtResource( 82 )]
 
 [connection signal="area_entered" from="Level 1/pizza" to="Level 1/pizza" method="_on_pizza_area_entered"]
 [connection signal="body_entered" from="Level 1/pizza" to="Level 1/pizza" method="_on_pizza_body_entered"]
 [connection signal="area_entered" from="Level 1/Ninja" to="Level 1/Ninja" method="_on_Ninja_area_entered"]
 [connection signal="animation_finished" from="Level 1/Ninja/AnimatedSprite" to="Level 1/Ninja" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Boss" to="Level 1/Boss" method="_on_Boss_area_entered"]
+[connection signal="animation_finished" from="Level 1/Boss/AnimatedSprite" to="Level 1/Boss" method="_on_AnimatedSprite_animation_finished"]
