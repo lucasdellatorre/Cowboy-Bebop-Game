@@ -152,6 +152,8 @@ var velocity = Vector2.ZERO
 var previous_position = Vector2.ZERO
 var can_attack = true
 
+signal boss_killed
+
 
 onready var animation_player = $AnimatedSprite
 onready var body = $Body
@@ -236,6 +238,8 @@ func _on_AnimatedSprite_animation_finished():
 	match $AnimatedSprite.animation:
 		\"destroyed\":
 			queue_free()
+			emit_signal(\"boss_killed\")
+			
 		\"hitstun\":
 			_enter_state(StateMachine.IDLE)
 		\"attack\":
@@ -344,8 +348,8 @@ script = ExtResource( 42 )
 position = Vector2( 3, -50 )
 scale = Vector2( -1, 1 )
 frames = SubResource( 7 )
-animation = "hitstun"
-frame = 1
+animation = "attack"
+frame = 4
 speed_scale = 1.2
 playing = true
 __meta__ = {
@@ -399,7 +403,7 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="Level 1/Boss"]
 wait_time = 1.5
 
-[node name="AttackArea" parent="Level 1/Boss" instance=ExtResource( 83 )]
+[node name="AttackArea" parent="Level 1/Boss" groups=["boss_hand"] instance=ExtResource( 83 )]
 script = null
 
 [node name="HUD" parent="." instance=ExtResource( 82 )]

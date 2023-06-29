@@ -78,9 +78,16 @@ func _on_pizza_body_entered(body: Node) -> void:
 
 func _on_HurtBox_area_entered(area: Area2D) -> void:
 	if dash.is_dashing(): return
-	if area.is_in_group("hand"):
-		health -= 20
+	
+	if area.is_in_group("boss_hand"):
+		print(health)
+		health -= 30
 		if health <= 0:
-			print("dead")
+			get_tree().change_scene("res://GameOver.tscn")
+	elif area.is_in_group("hand"):
+		health -= 15
+		if health <= 0:
+			get_tree().change_scene("res://GameOver.tscn")
+	
 	# var base_damage = hitbox.damage
 	#self.health -+ base_damage

@@ -106,7 +106,7 @@ text = "Menu"
 position = Vector2( 700, 171 )
 scale = Vector2( 0.4, 0.4 )
 frames = SubResource( 1 )
-frame = 31
+frame = 4
 playing = true
 
 [node name="Label" type="Label" parent="."]
