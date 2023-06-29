@@ -87,7 +87,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 16, 5.5 )
+extents = Vector2( 32.3167, 7.25 )
 
 [sub_resource type="RectangleShape2D" id=13]
 
@@ -105,8 +105,8 @@ dash_length = 0.2
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 4, -66 )
 frames = SubResource( 2 )
-animation = "idle"
-frame = 6
+animation = "attack_bite"
+frame = 5
 speed_scale = 1.3
 playing = true
 
@@ -128,13 +128,13 @@ editor_draw_limits = true
 [node name="AttackArea" type="Area2D" parent="." groups=["stick"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2( 105, 0 )
+position = Vector2( 70.5603, -1.25 )
 scale = Vector2( 1.00754, 1 )
 shape = SubResource( 8 )
 disabled = true
 
 [node name="attack_bite" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2( 60, 0 )
+position = Vector2( 34, 0 )
 scale = Vector2( 2, 3 )
 shape = SubResource( 13 )
 disabled = true
