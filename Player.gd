@@ -8,6 +8,7 @@ export (float) var dash_length = 30
 
 var velocity = Vector2()
 var block_movement = false
+var knockback = 0
 
 onready var dash = $Dash
 onready var sprite = $AnimatedSprite
@@ -20,6 +21,12 @@ func _on_AnimatedSprite_animation_finished():
 	elif sprite.animation == "attack_bite":
 		$AttackArea/attack_bite.disabled = true
 		block_movement = false
+	elif sprite.animation == "hitstun":
+		$HurtBox/CollisionShape2D.disabled = false
+		block_movement = false
+	#gambi, por algum motivo a mordida tava fincado ativa
+	$AttackArea/attack_bite.disabled = true
+
 
 func handle_melee(attack):
 	sprite.play(attack)
@@ -28,6 +35,15 @@ func handle_melee(attack):
 		$AttackArea/attack_bite.disabled = false
 	else:
 		$AttackArea/CollisionShape2D.disabled = false
+		
+func handle_stun():
+	sprite.play("hitstun")
+	block_movement = true
+	$HurtBox/CollisionShape2D.disabled = true
+	if sprite.is_flipped_h():
+			knockback = 300
+	else:
+			knockback = -300
 
 func get_8way_input():
 	if block_movement:
@@ -66,6 +82,12 @@ func get_8way_input():
 	velocity.y = velocity.y * speed_y
 		
 func _physics_process(delta):
+	if sprite.animation == "hitstun":
+		if sprite.is_flipped_h():
+			knockback = knockback - 5
+		else:
+			knockback = knockback + 5
+		move_and_slide(Vector2(knockback,0))
 	hud.update_player_hud(health)
 	get_8way_input()
 	velocity = move_and_slide(velocity)
@@ -83,9 +105,10 @@ func _on_HurtBox_area_entered(area: Area2D) -> void:
 	
 	if area.is_in_group("boss_hand"):
 		health -= 30
+		handle_stun()
 	elif area.is_in_group("hand"):
 		health -= 15
-			
+		handle_stun()
 	if health <= 0:
 		get_tree().change_scene("res://GameOver.tscn")
 	

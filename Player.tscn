@@ -83,7 +83,7 @@ animations = [ {
 "frames": [ ExtResource( 50 ), ExtResource( 49 ), ExtResource( 38 ), ExtResource( 51 ), ExtResource( 37 ), ExtResource( 46 ), ExtResource( 43 ) ],
 "loop": true,
 "name": "hitstun",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [ ExtResource( 12 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 13 ), ExtResource( 27 ), ExtResource( 10 ), ExtResource( 25 ), ExtResource( 11 ) ],
 "loop": true,
