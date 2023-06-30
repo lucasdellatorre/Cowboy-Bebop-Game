@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/sprites/player/Casey Jones/Idle_03.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_01.png" type="Texture" id=11]
 [ext_resource path="res://assets/sprites/player/Casey Jones/AttackMoving_07.png" type="Texture" id=12]
 [ext_resource path="res://assets/sprites/player/Casey Jones/Idle_00_06.png" type="Texture" id=13]
+[ext_resource path="res://Ninja2.gd" type="Script" id=14]
 [ext_resource path="res://assets/sprites/player/Casey Jones/Walk_04.png" type="Texture" id=15]
 [ext_resource path="res://assets/sprites/player/Casey Jones/Walk_06.png" type="Texture" id=16]
 [ext_resource path="res://assets/sprites/player/Casey Jones/Walk_03.png" type="Texture" id=17]
@@ -82,6 +83,9 @@
 [ext_resource path="res://assets/sprites/player/npc1/Foot Soldier (Elite)/Walk_06.png" type="Texture" id=81]
 [ext_resource path="res://HUD.tscn" type="PackedScene" id=82]
 [ext_resource path="res://AttackArea.tscn" type="PackedScene" id=83]
+[ext_resource path="res://Ninja3.gd" type="Script" id=84]
+[ext_resource path="res://Ninja4.gd" type="Script" id=85]
+[ext_resource path="res://Ninja5.gd" type="Script" id=86]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 768, 47.0938 )
@@ -387,7 +391,7 @@ __meta__ = {
 position = Vector2( 7, -53 )
 frames = SubResource( 11 )
 animation = "destroyed"
-speed_scale = 1.2
+speed_scale = 1.4
 flip_h = true
 __meta__ = {
 "_edit_group_": true
@@ -405,6 +409,125 @@ wait_time = 1.5
 [node name="AttackArea" parent="Level 1/Boss" groups=["boss_hand"] instance=ExtResource( 83 )]
 script = null
 
+[node name="Ninja2" type="Area2D" parent="Level 1"]
+position = Vector2( 335, 50 )
+script = ExtResource( 14 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja2"]
+position = Vector2( 3, -50 )
+scale = Vector2( -1, 1 )
+frames = SubResource( 7 )
+animation = "attack"
+frame = 3
+speed_scale = 1.2
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Ninja2"]
+position = Vector2( 0, 3 )
+scale = Vector2( 7.79109, -0.884586 )
+shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AttackArea" parent="Level 1/Ninja2" instance=ExtResource( 83 )]
+script = null
+
+[node name="Timer" type="Timer" parent="Level 1/Ninja2"]
+wait_time = 1.5
+
+[node name="Ninja3" type="Area2D" parent="Level 1"]
+position = Vector2( 1100, 50 )
+script = ExtResource( 84 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja3"]
+position = Vector2( 3, -50 )
+scale = Vector2( -1, 1 )
+frames = SubResource( 7 )
+animation = "attack"
+frame = 2
+speed_scale = 1.2
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Ninja3"]
+position = Vector2( 0, 3 )
+scale = Vector2( 7.79109, -0.884586 )
+shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AttackArea" parent="Level 1/Ninja3" instance=ExtResource( 83 )]
+script = null
+
+[node name="Timer" type="Timer" parent="Level 1/Ninja3"]
+wait_time = 1.5
+
+[node name="Ninja4" type="Area2D" parent="Level 1"]
+position = Vector2( 1050, 20 )
+script = ExtResource( 85 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja4"]
+position = Vector2( 3, -50 )
+scale = Vector2( -1, 1 )
+frames = SubResource( 7 )
+animation = "attack"
+frame = 1
+speed_scale = 1.2
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Ninja4"]
+position = Vector2( 0, 3 )
+scale = Vector2( 7.79109, -0.884586 )
+shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AttackArea" parent="Level 1/Ninja4" instance=ExtResource( 83 )]
+script = null
+
+[node name="Timer" type="Timer" parent="Level 1/Ninja4"]
+wait_time = 1.5
+
+[node name="Ninja5" type="Area2D" parent="Level 1"]
+position = Vector2( 1000, 40 )
+script = ExtResource( 86 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Level 1/Ninja5"]
+position = Vector2( 3, -50 )
+scale = Vector2( -1, 1 )
+frames = SubResource( 7 )
+animation = "attack"
+speed_scale = 1.2
+playing = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level 1/Ninja5"]
+position = Vector2( 0, 3 )
+scale = Vector2( 7.79109, -0.884586 )
+shape = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AttackArea" parent="Level 1/Ninja5" instance=ExtResource( 83 )]
+script = null
+
+[node name="Timer" type="Timer" parent="Level 1/Ninja5"]
+wait_time = 1.5
+
 [node name="HUD" parent="." instance=ExtResource( 82 )]
 
 [connection signal="body_entered" from="Level 1/pizza" to="Level 1/pizza" method="_on_pizza_body_entered"]
@@ -413,3 +536,11 @@ script = null
 [connection signal="animation_finished" from="Level 1/Ninja/AnimatedSprite" to="Level 1/Ninja" method="_on_AnimatedSprite_animation_finished"]
 [connection signal="area_entered" from="Level 1/Boss" to="Level 1/Boss" method="_on_Boss_area_entered"]
 [connection signal="animation_finished" from="Level 1/Boss/AnimatedSprite" to="Level 1/Boss" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Ninja2" to="Level 1/Ninja2" method="_on_Ninja_area_entered"]
+[connection signal="animation_finished" from="Level 1/Ninja2/AnimatedSprite" to="Level 1/Ninja2" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Ninja3" to="Level 1/Ninja3" method="_on_Ninja_area_entered"]
+[connection signal="animation_finished" from="Level 1/Ninja3/AnimatedSprite" to="Level 1/Ninja3" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Ninja4" to="Level 1/Ninja4" method="_on_Ninja_area_entered"]
+[connection signal="animation_finished" from="Level 1/Ninja4/AnimatedSprite" to="Level 1/Ninja4" method="_on_AnimatedSprite_animation_finished"]
+[connection signal="area_entered" from="Level 1/Ninja5" to="Level 1/Ninja5" method="_on_Ninja_area_entered"]
+[connection signal="animation_finished" from="Level 1/Ninja5/AnimatedSprite" to="Level 1/Ninja5" method="_on_AnimatedSprite_animation_finished"]

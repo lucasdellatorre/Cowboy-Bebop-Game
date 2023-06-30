@@ -17,9 +17,6 @@ func _ready() -> void:
 	player = currentScene.get_node("Player")
 	
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("death"):
-		call_deferred("goto_scene", "res://GameOver.tscn")
-		
 	if endLine == null:
 		return
 		

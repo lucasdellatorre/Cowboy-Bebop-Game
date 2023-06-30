@@ -50,6 +50,8 @@ func get_8way_input():
 		sprite.play("walk")
 	elif Input.is_action_pressed("movement_up"):
 		sprite.play("walk")
+	elif Input.is_action_pressed("victory"): # victory
+		sprite.play("victory")
 	elif Input.is_action_pressed("movement_down"):
 		sprite.play("walk")
 	else:
@@ -65,7 +67,6 @@ func get_8way_input():
 		
 func _physics_process(delta):
 	hud.update_player_hud(health)
-	#handle_dash()
 	get_8way_input()
 	velocity = move_and_slide(velocity)
 	
